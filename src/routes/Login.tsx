@@ -2,6 +2,7 @@ import { useState } from "react";
 import Layout from "../layout/Layout";
 import { useAuth } from "../auth/AuthProvider";
 import { Navigate } from "react-router-dom";
+import serverAPI from "../api/api";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -16,6 +17,13 @@ export default function Login() {
     });
   }
 
+  async function handleCredentialsSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log(credentials);
+    const res = await serverAPI.login(credentials.email, credentials.password);
+    console.log(res);
+  }
+
   const auth = useAuth();
 
   if (auth.isAuthenticated) {
@@ -24,7 +32,7 @@ export default function Login() {
 
   return (
     <Layout>
-      <form>
+      <form onSubmit={handleCredentialsSubmit}>
         <h1>Login</h1>
         <label>Username</label>
         <input
