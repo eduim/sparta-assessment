@@ -78,6 +78,7 @@ export default function Login() {
           onChange={handleCredentialsChange}
         ></input>
         <button>Login</button>
+        {requestState.loading && <p>Loading...</p>}
       </form>
     </Layout>
   );

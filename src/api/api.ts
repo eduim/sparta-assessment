@@ -13,6 +13,6 @@ function fakeFetch(email: string, password: string): Promise<AuthReponse> {
     setTimeout(() => {
       const token = `randomtoken:${email}:${password}`;
       resolve({ token });
-    }, 1000);
+    }, 3000);
   });
 }
