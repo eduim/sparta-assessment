@@ -1,3 +1,4 @@
+import Layout from "../layout/Layout";
 export default function Dashboard() {
-  return <>Dashboard</>;
+  return <Layout>Dashboard</Layout>;
 }
