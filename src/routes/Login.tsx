@@ -1,13 +1,20 @@
 import { useState } from "react";
 import Layout from "../layout/Layout";
 import { useAuth } from "../auth/AuthProvider";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import serverAPI from "../api/api";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+  });
+
+  const goTo = useNavigate();
+
+  const [requestState, setRequestState] = useState({
+    loading: false,
+    error: false,
   });
 
   function handleCredentialsChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -19,9 +26,33 @@ export default function Login() {
 
   async function handleCredentialsSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(credentials);
-    const res = await serverAPI.login(credentials.email, credentials.password);
-    console.log(res);
+    setRequestState({
+      ...requestState,
+      loading: true,
+    });
+    try {
+      const res = await serverAPI.login(
+        credentials.email,
+        credentials.password
+      );
+
+      setRequestState({
+        ...requestState,
+        loading: false,
+      });
+      auth.saveUser(res.token);
+      goTo("/dashboard");
+    } catch (err) {
+      setRequestState({
+        loading: false,
+        error: true,
+      });
+    } finally {
+      setRequestState({
+        loading: false,
+        error: false,
+      });
+    }
   }
 
   const auth = useAuth();
@@ -42,7 +73,7 @@ export default function Login() {
         ></input>
         <label>Password</label>
         <input
-          type="text"
+          type="password"
           name="password"
           onChange={handleCredentialsChange}
         ></input>
