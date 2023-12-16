@@ -2,8 +2,7 @@ import type { AuthReponse } from "../types";
 
 const serverAPI = {
   async login(email: string, password: string): Promise<AuthReponse> {
-    const response = await fakeFetch(email, password);
-    return response.token;
+    return await fakeFetch(email, password);
   },
 };
 

@@ -9,7 +9,7 @@ export default function Login() {
     email: "",
     password: "",
   });
-
+  const auth = useAuth();
   const goTo = useNavigate();
 
   const [requestState, setRequestState] = useState({
@@ -40,6 +40,8 @@ export default function Login() {
         ...requestState,
         loading: false,
       });
+
+      console.log("TOKEN", res.token);
       auth.saveUser(res.token);
       goTo("/dashboard");
     } catch (err) {
@@ -54,8 +56,6 @@ export default function Login() {
       });
     }
   }
-
-  const auth = useAuth();
 
   if (auth.isAuthenticated) {
     return <Navigate to="/dashboard" />;

@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export const useAuth = () => {
   const { state, dispatch } = useContext(AuthContext);
 
-  const getAccessToken = () => state.token;
+  const getAccessToken = (): AuthReponse["token"] => state.token;
   const saveUser = (token: AuthReponse["token"]) => {
     dispatch({ type: "LOGIN", payload: token });
   };
@@ -67,5 +67,6 @@ export const useAuth = () => {
     getAccessToken,
     saveUser,
     logout,
+    isAuthenticated: state.isAuthenticated,
   };
 };
