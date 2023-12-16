@@ -4,6 +4,8 @@ import { useAuth } from "../auth/AuthProvider";
 import { Navigate, useNavigate } from "react-router-dom";
 import serverAPI from "../api/api";
 import useFetch from "../customHooks/useFetch";
+import { ZodError } from "zod";
+import { loginCredentialsSchema } from "../utils/schemas/loginSchema";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -11,7 +13,8 @@ export default function Login() {
     password: "",
   });
   const auth = useAuth();
-  const { requestState, startRequest, endRequest, setError } = useFetch();
+  const { requestState, errorMessage, startRequest, endRequest, setError } =
+    useFetch();
   const goTo = useNavigate();
 
   function handleCredentialsChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -24,15 +27,21 @@ export default function Login() {
   async function handleCredentialsSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     startRequest();
+
     try {
+      const credentialsValidated = loginCredentialsSchema.parse(credentials);
       const res = await serverAPI.login(
-        credentials.email,
-        credentials.password
+        credentialsValidated.email,
+        credentialsValidated.password
       );
       auth.saveUser(res.token);
       goTo("/dashboard");
     } catch (err) {
-      setError();
+      if (err instanceof ZodError) {
+        setError(err.errors);
+      } else {
+        setError();
+      }
     } finally {
       endRequest();
     }
@@ -46,7 +55,7 @@ export default function Login() {
     <Layout>
       <form onSubmit={handleCredentialsSubmit}>
         <h1>Login</h1>
-        <label>Username</label>
+        <label>Email</label>
         <input
           type="text"
           name="email"
@@ -60,6 +69,7 @@ export default function Login() {
         ></input>
         <button>Login</button>
         {requestState.loading && <p>Loading...</p>}
+        {errorMessage && <p>{errorMessage}</p>}
       </form>
     </Layout>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { ZodIssue } from "zod";
 interface FetchState {
   loading: boolean;
   error: boolean;
@@ -11,29 +11,41 @@ const useFetch = () => {
     loading: false,
     error: false,
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const startRequest = () => {
+    setErrorMessage(null);
     setRequestState({
+      ...requestState,
       loading: true,
-      error: false,
     });
   };
 
   const endRequest = () => {
     setRequestState({
+      ...requestState,
       loading: false,
-      error: false,
     });
   };
 
-  const setError = () => {
-    setRequestState({
-      loading: false,
-      error: true,
+  const setError = (issues?: ZodIssue[]) => {
+    setRequestState((prevState) => {
+      return {
+        ...prevState,
+        error: true,
+      };
     });
+
+    if (issues) {
+      const errorMessages = issues.flatMap(
+        (error: ZodIssue) => `${error.message}`
+      );
+      const message = errorMessages.join(", ").toString();
+      setErrorMessage(message);
+    }
   };
 
-  return { requestState, startRequest, endRequest, setError };
+  return { requestState, errorMessage, startRequest, endRequest, setError };
 };
 
 export default useFetch;
