@@ -3,6 +3,7 @@ import Layout from "../layout/Layout";
 import { useAuth } from "../auth/AuthProvider";
 import { Navigate, useNavigate } from "react-router-dom";
 import serverAPI from "../api/api";
+import useFetch from "../customHooks/useFetch";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -10,12 +11,8 @@ export default function Login() {
     password: "",
   });
   const auth = useAuth();
+  const { requestState, startRequest, endRequest, setError } = useFetch();
   const goTo = useNavigate();
-
-  const [requestState, setRequestState] = useState({
-    loading: false,
-    error: false,
-  });
 
   function handleCredentialsChange(e: React.ChangeEvent<HTMLInputElement>) {
     setCredentials({
@@ -26,34 +23,18 @@ export default function Login() {
 
   async function handleCredentialsSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setRequestState({
-      ...requestState,
-      loading: true,
-    });
+    startRequest();
     try {
       const res = await serverAPI.login(
         credentials.email,
         credentials.password
       );
-
-      setRequestState({
-        ...requestState,
-        loading: false,
-      });
-
-      console.log("TOKEN", res.token);
       auth.saveUser(res.token);
       goTo("/dashboard");
     } catch (err) {
-      setRequestState({
-        loading: false,
-        error: true,
-      });
+      setError();
     } finally {
-      setRequestState({
-        loading: false,
-        error: false,
-      });
+      endRequest();
     }
   }
 
