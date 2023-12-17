@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { ZodIssue } from "zod";
-interface FetchState {
-  loading: boolean;
-  error: boolean;
-}
+import { FetchState } from "../types";
 
 // can be updated and improved in the future to accept other fetch types
 const useFetch = () => {
