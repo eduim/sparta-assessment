@@ -23,6 +23,7 @@ export default function ListItem({
       {editMode && (
         <input
           type="text"
+          name="editTask"
           onChange={(e) => setEditTodoInput(e.target.value)}
         ></input>
       )}

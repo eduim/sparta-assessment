@@ -1,22 +1,23 @@
 import { buildToken } from "../../../src/utils/utils";
+import { BASE_URL } from "../../../src/utils/constants";
 
 describe("Healthcheck", () => {
   it("Healthcheck", () => {
-    cy.visit("http://localhost:3000/");
+    cy.visit(BASE_URL);
     cy.contains("Login");
   });
 });
 
 describe("Protected routes", () => {
   it("Cant access to protected route: Dashboard", () => {
-    cy.visit("http://localhost:3000/dashboard");
+    cy.visit(`${BASE_URL}dashboard`);
     cy.contains("Login");
   });
 });
 
 describe("Login", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/");
+    cy.visit(BASE_URL);
   });
 
   it("Recive feedback error on email input", () => {
