@@ -1,5 +1,5 @@
-import { buildToken } from "../../../src/utils/utils";
-import { BASE_URL } from "../../../src/utils/constants";
+import { buildToken } from "../../src/utils/utils";
+import { BASE_URL } from "../../src/utils/constants";
 
 describe("Healthcheck", () => {
   it("Healthcheck", () => {
