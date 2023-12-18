@@ -1,4 +1,5 @@
 import type { AuthReponse } from "../types";
+import { buildToken } from "../utils/utils";
 
 const serverAPI = {
   async login(email: string, password: string): Promise<AuthReponse> {
@@ -11,8 +12,8 @@ export default serverAPI;
 function fakeFetch(email: string, password: string): Promise<AuthReponse> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const token = `randomtoken:${email}:${password}`;
+      const token = buildToken(email, password);
       resolve({ token });
-    }, 3000);
+    }, 1000);
   });
 }

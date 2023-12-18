@@ -1,14 +1,5 @@
 import { useState } from "react";
-type ListItemProps = {
-  item: {
-    id: number;
-    title: string;
-    completed: boolean;
-  };
-  handleSubmitEditTask: (editTodoInput: string, index: number) => void;
-  handleChangeCheckTask: (index: number) => void;
-  handleClickDeleteTask: (index: number) => void;
-};
+import { ListItemProps } from "../types";
 
 export default function ListItem({
   item,

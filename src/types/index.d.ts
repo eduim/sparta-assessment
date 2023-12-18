@@ -17,3 +17,28 @@ export interface AuthActionLogin {
 export interface AuthActionLogout {
   type: "LOGOUT";
 }
+
+export interface FetchState {
+  loading: boolean;
+  error: boolean;
+}
+
+export type TodoType = {
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
+export type ListItemProps = {
+  item: TodoType;
+  handleSubmitEditTask: (editTodoInput: string, index: number) => void;
+  handleChangeCheckTask: (index: number) => void;
+  handleClickDeleteTask: (index: number) => void;
+};
+
+/// <reference types="cypress" />
+declare namespace Cypress {
+  interface Chainable<Subject = any> {
+    login(): Chainable<any>;
+  }
+}

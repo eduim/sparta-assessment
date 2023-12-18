@@ -53,7 +53,7 @@ export default function Login() {
 
   return (
     <Layout>
-      <form onSubmit={handleCredentialsSubmit}>
+      <form data-test-id="login-form" onSubmit={handleCredentialsSubmit}>
         <h1>Login</h1>
         <label>Email</label>
         <input

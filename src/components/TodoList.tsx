@@ -1,11 +1,6 @@
 import { useState } from "react";
 import ListItem from "./ListItem";
-
-type TodoType = {
-  id: number;
-  title: string;
-  completed: boolean;
-};
+import { TodoType } from "../types";
 
 export default function Todolist() {
   const [todo, setTodo] = useState<TodoType[]>([]);
