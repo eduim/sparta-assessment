@@ -1,4 +1,4 @@
-import Todolist from "../components/ToDoList";
+import Todolist from "../components/TodoList";
 import Layout from "../layout/Layout";
 
 export default function Dashboard() {

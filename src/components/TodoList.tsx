@@ -1,6 +1,9 @@
 import { useState } from "react";
 import ListItem from "./ListItem";
 import { TodoType } from "../types";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
+import "./styles/todolist.scss";
 
 export default function Todolist() {
   const [todo, setTodo] = useState<TodoType[]>([]);
@@ -63,26 +66,29 @@ export default function Todolist() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmitAddTask}>
+    <div className="todo-wrapper">
+      <form className="todo-form" onSubmit={handleSubmitAddTask}>
         <h1>To Do List</h1>
-        <label>New task</label>
-        <input
-          type="text"
-          name="new-task"
-          placeholder="new task"
-          value={newTodoInput}
-          onChange={handleChangeAddTask}
-        ></input>
-        <button>Add</button>
+        <label>Add new task</label>
+        <div>
+          <Input
+            type="text"
+            name="new-task"
+            placeholder="new task"
+            value={newTodoInput}
+            changeHandler={handleChangeAddTask}
+          />
+
+          <Button>Add</Button>
+        </div>
       </form>
       {
-        <ul data-test-id="todo-list">
+        <ul className="todo-list" data-test-id="todo-list">
           {todo.map((item) => (
             <ListItem key={item.id} {...itemProps} item={item} />
           ))}
         </ul>
       }
-    </>
+    </div>
   );
 }

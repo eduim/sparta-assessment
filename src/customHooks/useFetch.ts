@@ -35,7 +35,7 @@ const useFetch = () => {
 
     if (issues) {
       const errorMessages = issues.flatMap(
-        (error: ZodIssue) => `${error.message}`
+        (error: ZodIssue) => `${error.path[0]} field ${error.message}`
       );
       const message = errorMessages.join(", ").toString();
       setErrorMessage(message);

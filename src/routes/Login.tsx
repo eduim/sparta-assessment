@@ -6,6 +6,9 @@ import serverAPI from "../api/api";
 import useFetch from "../customHooks/useFetch";
 import { ZodError } from "zod";
 import { loginCredentialsSchema } from "../utils/schemas/loginSchema";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
+import "./styles/login.scss";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -51,25 +54,31 @@ export default function Login() {
     return <Navigate to="/dashboard" />;
   }
 
+  const loginText = requestState.loading ? "Loading..." : "Login";
+
   return (
     <Layout>
-      <form data-test-id="login-form" onSubmit={handleCredentialsSubmit}>
+      <form
+        data-test-id="login-form"
+        onSubmit={handleCredentialsSubmit}
+        className="login-form"
+      >
         <h1>Login</h1>
         <label>Email</label>
-        <input
+        <Input
           type="text"
           name="email"
-          onChange={handleCredentialsChange}
-        ></input>
+          changeHandler={handleCredentialsChange}
+        />
         <label>Password</label>
-        <input
+        <Input
           type="password"
           name="password"
-          onChange={handleCredentialsChange}
-        ></input>
-        <button>Login</button>
-        {requestState.loading && <p>Loading...</p>}
-        {errorMessage && <p>{errorMessage}</p>}
+          changeHandler={handleCredentialsChange}
+        />
+        <Button>{loginText}</Button>
+        {/* {requestState.loading && <p>Loading...</p>} */}
+        {errorMessage && <p className="warning">{errorMessage}</p>}
       </form>
     </Layout>
   );

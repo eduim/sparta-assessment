@@ -35,10 +35,3 @@ export type ListItemProps = {
   handleChangeCheckTask: (index: number) => void;
   handleClickDeleteTask: (index: number) => void;
 };
-
-/// <reference types="cypress" />
-declare namespace Cypress {
-  interface Chainable<Subject = any> {
-    login(): Chainable<any>;
-  }
-}

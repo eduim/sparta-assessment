@@ -1,0 +1,33 @@
+.todo-wrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  label {
+    margin-bottom: 0.5rem;
+  }
+  div {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    input {
+      flex-grow: 1;
+    }
+  }
+}
+
+.todo-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}

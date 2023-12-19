@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
+import "./styles/layout.scss";
+import Button from "../ui/Button";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const auth = useAuth();
@@ -9,15 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header>
         <nav>
           <ul>
-            <li>
-              <Link to={"/"}>Home</Link>
-            </li>
-            <li>
-              <Link to={"/dashboard"}>Dashboard</Link>
-            </li>
             {auth.isAuthenticated && (
               <li>
-                <button onClick={auth.logout}>Logout</button>{" "}
+                <Button clickHandler={auth.logout}>Logout</Button>
               </li>
             )}
           </ul>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { ListItemProps } from "../types";
-
+import Input from "../ui/Input";
+import Button from "../ui/Button";
+import "./styles/listitem.scss";
 export default function ListItem({
   item,
   handleChangeCheckTask,
@@ -18,26 +20,28 @@ export default function ListItem({
   };
 
   return (
-    <li>
-      {!editMode && <span>{item.title}</span>}
-      {editMode && (
-        <input
-          type="text"
-          name="editTask"
-          onChange={(e) => setEditTodoInput(e.target.value)}
-        ></input>
-      )}
-      <button type="submit" onClick={handleClickEditMode}>
-        Edit
-      </button>
-      <button type="submit" onClick={() => handleClickDeleteTask(item.id)}>
-        Delete
-      </button>
-      <input
+    <li className="todo-item">
+      <Input
         type="checkbox"
         checked={item.completed}
-        onChange={() => handleChangeCheckTask(item.id)}
+        changeHandler={() => handleChangeCheckTask(item.id)}
       />
+      <div className="placeholder">
+        {!editMode && <span>{item.title}</span>}
+        {editMode && (
+          <Input
+            type="text"
+            name="editTask"
+            changeHandler={(e) => setEditTodoInput(e.target.value)}
+          />
+        )}
+      </div>
+      <Button type="submit" clickHandler={handleClickEditMode}>
+        Edit
+      </Button>
+      <Button type="submit" clickHandler={() => handleClickDeleteTask(item.id)}>
+        Delete
+      </Button>
     </li>
   );
 }
