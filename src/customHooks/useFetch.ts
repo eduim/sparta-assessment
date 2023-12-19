@@ -1,9 +1,11 @@
 import { useState } from "react";
-import serverAPI from "../api/api";
+import ServerAPI, { fakeFetch } from "../api/api";
 import { APIResponse } from "../types";
 
+const api = ServerAPI(fakeFetch);
+
 const mapEndpoints = {
-  LOGIN: serverAPI.login,
+  LOGIN: api.login,
 };
 
 type FetcherFunction<T> = (payload: T) => Promise<APIResponse>;
@@ -13,6 +15,7 @@ const useFetch = <T>(endpoint: keyof typeof mapEndpoints) => {
   const [error, setError] = useState<boolean>(false);
 
   const fetcher = mapEndpoints[endpoint] as FetcherFunction<T>;
+
   const fetch = async (payload: T) => {
     setLoading(true);
     try {

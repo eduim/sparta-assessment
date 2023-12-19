@@ -29,6 +29,11 @@ export type TodoType = {
   completed: boolean;
 };
 
+export type FetchFunction = (
+  url: string,
+  options?: RequestInit
+) => Promise<Response>;
+
 export type ListItemProps = {
   item: TodoType;
   handleSubmitEditTask: (editTodoInput: string, index: number) => void;
