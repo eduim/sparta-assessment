@@ -1,48 +1,30 @@
 import { useState } from "react";
-import { ZodIssue } from "zod";
-import { FetchState } from "../types";
+import serverAPI from "../api/api";
+import { APIResponse } from "../types";
 
-// can be updated and improved in the future to accept other fetch types
-const useFetch = () => {
-  const [requestState, setRequestState] = useState<FetchState>({
-    loading: false,
-    error: false,
-  });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+const mapEndpoints = {
+  LOGIN: serverAPI.login,
+};
 
-  const startRequest = () => {
-    setErrorMessage(null);
-    setRequestState({
-      ...requestState,
-      loading: true,
-    });
-  };
+type FetcherFunction<T> = (payload: T) => Promise<APIResponse>;
 
-  const endRequest = () => {
-    setRequestState({
-      ...requestState,
-      loading: false,
-    });
-  };
+const useFetch = <T>(endpoint: keyof typeof mapEndpoints) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
-  const setError = (issues?: ZodIssue[]) => {
-    setRequestState((prevState) => {
-      return {
-        ...prevState,
-        error: true,
-      };
-    });
-
-    if (issues) {
-      const errorMessages = issues.flatMap(
-        (error: ZodIssue) => `${error.path[0]} field ${error.message}`
-      );
-      const message = errorMessages.join(", ").toString();
-      setErrorMessage(message);
+  const fetcher = mapEndpoints[endpoint] as FetcherFunction<T>;
+  const fetch = async (payload: T) => {
+    setLoading(true);
+    try {
+      return await fetcher(payload);
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return { requestState, errorMessage, startRequest, endRequest, setError };
+  return { loading, error, fetch };
 };
 
 export default useFetch;

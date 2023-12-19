@@ -1,7 +1,7 @@
 export type AuthReponse = {
   token: string;
 };
-
+export type APIResponse = AuthReponse;
 export interface AuthState {
   isAuthenticated: boolean;
   token: string;
@@ -18,10 +18,10 @@ export interface AuthActionLogout {
   type: "LOGOUT";
 }
 
-export interface FetchState {
-  loading: boolean;
-  error: boolean;
-}
+export type CredentialsForm = {
+  email: string;
+  password: string;
+};
 
 export type TodoType = {
   id: number;

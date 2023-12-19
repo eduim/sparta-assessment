@@ -2,7 +2,13 @@ import type { AuthReponse } from "../types";
 import { buildToken } from "../utils/utils";
 
 const serverAPI = {
-  async login(email: string, password: string): Promise<AuthReponse> {
+  async login({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<AuthReponse> {
     return await fakeFetch(email, password);
   },
 };
